@@ -40,9 +40,7 @@ class BinarySearchTree {
     function searchRecurc(node, data){
       if(!node){return false}
       if(node.data === data){return true}
-      if(node.data < data){node.right = searchRecurc(node.right, data)}
-      if(node.data > data){node.left = searchRecurc(node.left, data)}
-      return false
+      return node.data < data? searchRecurc(node.left, data): searchRecurc(node.right, data)
     }
   }
 
@@ -63,15 +61,15 @@ class BinarySearchTree {
         return null
       }
       if(node.data < data){
-        node.right = removeRecurs(node.right, data)
-        return node
-      }
-      if(node.data > data){
         node.left = removeRecurs(node.left, data)
         return node
-      }
-      if(node.data === data){
-        if(!node.left && !node.right){return null}
+      }else if(node.data > data){
+        node.right = removeRecurs(node.right, data)
+        return node
+      }else{
+        if(!node.left && !node.right){
+          return null
+        }
         if(!node.left){
           node = node.right
           return node
@@ -79,17 +77,15 @@ class BinarySearchTree {
         if(!node.right){
           node = node.left
           return node
-        }else{
-          let min = node.right;
-          while(min.left){
-            min = min.left
-          }
-          node.data = min.data
-          node.right = removeRecurs(node.right, min.data)
-          return node
         }
+        let min = node.right;
+        while(min.left){
+          min = min.left
+        }
+        node.data = min.data
+        node.right = removeRecurs(node.right, min.data)
+        return node
       }
-
     }
   }
 
